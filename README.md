@@ -1,6 +1,7 @@
 # devops-netology
-Add new line
-Add new line
+Add new line  
+Add new line  
+Add new line in main branch
 
 ### В папке terraform будут проигнорированы:
 
