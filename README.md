@@ -1,6 +1,7 @@
 # devops-netology
-Add new line
-Add new line
+Add new line  
+Add new line  
+Add new line  
 
 В папке terraform будут проигнорированы
 	1. Все файлы в директории .terraform, которая находится во всех поддерикториях
