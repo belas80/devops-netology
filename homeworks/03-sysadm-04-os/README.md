@@ -165,7 +165,7 @@ Vagrant.configure("2") do |config|
 end
 
 ```
-![](img/screenNedData.png)  
+![](/img/screenNedData.png)  
 
 4. По выводу `dmesg`  ОС похоже понимает что запускается на виртуализации. В выводе, например, присутствуют сточки  
 
