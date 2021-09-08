@@ -14,7 +14,6 @@
    ...
    ```
    Этот код указывает на то, что запрошенный ресурс был окончательно (на постоянной основе) перемещен в URL указанный в поле `locaton`, т.е. в данном случае, было перенаправление на протокол HTTPS.
-   
 1. Тоже задание в браузере в консоли разработчика. И видим тот же ответ сервера `Status Code: 301 Moved Permanently`.
    ![](img/screen-net-1.png)
    Самый долгий запрос был `https://stackoverflow.com/`, обрабатывался `647 ms`
@@ -37,48 +36,36 @@
 
 1. DNS сервера отвечающие за доменное имя dns.google
    ```bash
-   vagrant@vagrant:~$ dig dns.google ns | grep IN
-   ;dns.google.			IN	NS
-   dns.google.		279	IN	NS	ns3.zdns.google.
-   dns.google.		279	IN	NS	ns4.zdns.google.
-   dns.google.		279	IN	NS	ns1.zdns.google.
-   dns.google.		279	IN	NS	ns2.zdns.google.
+   vagrant@vagrant:~$ dig +noall +answer dns.google ns
+   dns.google.		300	IN	NS	ns3.zdns.google.
+   dns.google.		300	IN	NS	ns4.zdns.google.
+   dns.google.		300	IN	NS	ns1.zdns.google.
+   dns.google.		300	IN	NS	ns2.zdns.google.
    ```   
    Посмотрим их записи `A`
    ```bash
-   vagrant@vagrant:~$ dig ns{3,4,1,2}.zdns.google | grep IN
-   ;ns3.zdns.google.		IN	A
-   ns3.zdns.google.	140	IN	A	216.239.36.114
-   ;ns4.zdns.google.		IN	A
-   ns4.zdns.google.	265	IN	A	216.239.38.114
-   ;ns1.zdns.google.		IN	A
+   vagrant@vagrant:~$ dig +noall +answer ns{1,4,3,2}.zdns.google
    ns1.zdns.google.	300	IN	A	216.239.32.114
-   ;ns2.zdns.google.		IN	A
-   ns2.zdns.google.	265	IN	A	216.239.34.114
+   ns4.zdns.google.	168	IN	A	216.239.38.114
+   ns3.zdns.google.	96	IN	A	216.239.36.114
+   ns2.zdns.google.	96	IN	A	216.239.34.114
    ```
    А так же для `dns.google`
    ```bash
-   vagrant@vagrant:~$ dig dns.google | grep IN
-   ;dns.google.			IN	A
-   dns.google.		51	IN	A	8.8.4.4
-   dns.google.		51	IN	A	8.8.8.8
+   vagrant@vagrant:~$ dig +noall +answer dns.google
+   dns.google.		226	IN	A	8.8.4.4
+   dns.google.		226	IN	A	8.8.8.8
    ```
 1. Смотрим `PTR`
    ```bash
-   vagrant@vagrant:~$ dig -x 216.239.36.114 -x 216.239.32.114 -x 216.239.38.114 -x 216.239.34.114 | grep IN
-   ;114.36.239.216.in-addr.arpa.	IN	PTR
-   114.36.239.216.in-addr.arpa. 300 IN	PTR	ns3.zdns.google.
-   ;114.32.239.216.in-addr.arpa.	IN	PTR
-   114.32.239.216.in-addr.arpa. 300 IN	PTR	ns1.zdns.google.
-   ;114.38.239.216.in-addr.arpa.	IN	PTR
+   vagrant@vagrant:~$ dig +noall +answer -x 216.239.32.114 -x 216.239.38.114 -x 216.239.36.114 -x 216.239.34.114
+   114.32.239.216.in-addr.arpa. 248 IN	PTR	ns1.zdns.google.
    114.38.239.216.in-addr.arpa. 300 IN	PTR	ns4.zdns.google.
-   ;114.34.239.216.in-addr.arpa.	IN	PTR
+   114.36.239.216.in-addr.arpa. 300 IN	PTR	ns3.zdns.google.
    114.34.239.216.in-addr.arpa. 300 IN	PTR	ns2.zdns.google.
    
-   vagrant@vagrant:~$ dig -x 8.8.4.4 -x 8.8.8.8 | grep IN
-   ;4.4.8.8.in-addr.arpa.		IN	PTR
-   4.4.8.8.in-addr.arpa.	291	IN	PTR	dns.google.
-   ;8.8.8.8.in-addr.arpa.		IN	PTR
-   8.8.8.8.in-addr.arpa.	300	IN	PTR	dns.google.
+   vagrant@vagrant:~$ dig +noall +answer -x 8.8.4.4 -x 8.8.8.8
+   4.4.8.8.in-addr.arpa.	229	IN	PTR	dns.google.
+   8.8.8.8.in-addr.arpa.	247	IN	PTR	dns.google.
    ```
    
