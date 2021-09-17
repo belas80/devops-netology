@@ -56,7 +56,7 @@
          rx pathid: 0, tx pathid: 0x0
    route-views>
    ```
-   Проходит через `AS3267` и `AS12668`, также его видно из первого вывода `show ip route`  <br><br>
+   Проходит через `AS3267` и `AS12668`, также его видно из первого вывода `show ip route`  
 2. Создаем `dummy` интерфейс. Сначала включим модуль.
    ```bash
    vagrant@vagrant:~$ sudo modprobe dummy
