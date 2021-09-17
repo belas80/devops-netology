@@ -9,15 +9,10 @@
    vagrant@vagrant:~$ lsmod | grep dummy
    dummy                  16384  0
    ```
-   Для того чтобы добаленный модуль сохранился после перезагрузки, добавим его в `/etc/modules`
+   Для того чтобы добавленный модуль сохранился после перезагрузки, можно добавить его в `/etc/modules`
    ```bash
    echo "dummy" >> /etc/modules
    ```
-   либо в `/etc/modprobe.d/dummy.conf`
-   ```bash
-   echo "options dummy numdummies=2" > /etc/modprobe.d/dummy.conf
-   ```
-   опция `numdummies` сразу создаст два интерфейса.  
    Добавляем сам интерфейс и назначаем ему ip адрес
    ```bash
    vagrant@vagrant:~$ sudo ip link add dummy0 type dummy
