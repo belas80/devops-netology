@@ -76,7 +76,7 @@
    dummy0           UNKNOWN        10.1.1.1/32 fe80::8b:6bff:fe66:ffcf/64
    ```
    тут аналогично, чтобы интерфейс сохранился после перезагрузки нужно прописать его например в `/etc/network/interfaces`  
-   <br>
+   
    Добавим несколько статических маршрутов
    ```bash
    vagrant@vagrant:~$ sudo ip route add 192.168.100.0/24 via 10.0.2.2
@@ -139,7 +139,6 @@
    UNCONN       0            0                          0.0.0.0:111                     0.0.0.0:*                        
    UNCONN       0            0                             [::]:111                        [::]:*
    ```
-   Здесь видим теже порты 111 `sunrpc` и 53 `dns`, а так же порт 68 `bootpc` (Bootstrap Protocol Client) используется DHCP для получения динамического адреса.  
-   <br>
+   Здесь видим теже порты 111 `sunrpc` и 53 `dns`, а так же порт 68 `bootpc` (Bootstrap Protocol Client) используется DHCP для получения динамического адреса.
 5. L3 диаргамма  <br><br>
    ![](img/Diagram.drawio.png)
