@@ -1,8 +1,62 @@
 # 3.8. Компьютерные сети, лекция 3
-1. Маршрут к моему публичному IP  
+1. Маршрут к публичному IP на `telnet route-views.routeviews.org`  
    ```bash
-   
+   route-views>show ip route 46.48.39.47
+   Routing entry for 46.48.0.0/17
+     Known via "bgp 6447", distance 20, metric 0
+     Tag 3267, type external
+     Last update from 194.85.40.15 4d21h ago
+     Routing Descriptor Blocks:
+      194.85.40.15, from 194.85.40.15, 4d21h ago
+         Route metric is 0, traffic share count is 1
+         AS Hops 2
+         Route tag 3267
+         MPLS label: none
    ```
+   Из вывода видно, что маршрут до моего IP известен через `bgp 6447`.
+   Посмотрим таблицу BGP
+   ```bash
+   route-views>show ip bgp 46.48.39.47   
+   BGP routing table entry for 46.48.0.0/17, version 1022400252
+   Paths: (24 available, best #8, table default)
+     Not advertised to any peer
+     Refresh Epoch 1
+     3356 12389 12668
+       4.68.4.46 from 4.68.4.46 (4.69.184.201)
+         Origin IGP, metric 0, localpref 100, valid, external
+         Community: 3356:2 3356:22 3356:100 3356:123 3356:501 3356:903 3356:2065 12668:0
+         path 7FE168F4AC58 RPKI State not found
+         rx pathid: 0, tx pathid: 0
+     Refresh Epoch 1
+     7018 3257 12389 12668
+       12.0.1.63 from 12.0.1.63 (12.0.1.63)
+         Origin IGP, localpref 100, valid, external
+         Community: 7018:5000 7018:37232
+         path 7FE11B078070 RPKI State not found
+         rx pathid: 0, tx pathid: 0
+     Refresh Epoch 1
+     701 1273 12389 12668
+       137.39.3.55 from 137.39.3.55 (137.39.3.55)
+         Origin IGP, localpref 100, valid, external
+         path 7FE0C468EEF0 RPKI State not found
+         rx pathid: 0, tx pathid: 0
+    --More-- 
+   ```
+   Доступно 24 маршрута, лучший 8-ой
+   ```bash
+   route-views>show ip bgp 46.48.39.47 bestpath 
+   BGP routing table entry for 46.48.0.0/17, version 1022400252
+   Paths: (24 available, best #8, table default)
+     Not advertised to any peer
+     Refresh Epoch 1
+     3267 12668
+       194.85.40.15 from 194.85.40.15 (185.141.126.1)
+         Origin IGP, metric 0, localpref 100, valid, external, best
+         path 7FE03307CE30 RPKI State not found
+         rx pathid: 0, tx pathid: 0x0
+   route-views>
+   ```
+   Проходит через `AS3267` и `AS12668`, также его видно из первого вывода `show ip route`  <br><br>
 2. Создаем `dummy` интерфейс. Сначала включим модуль.
    ```bash
    vagrant@vagrant:~$ sudo modprobe dummy
@@ -88,4 +142,5 @@
    ```
    Здесь видим теже порты 111 `sunrpc` и 53 `dns`, а так же порт 68 `bootpc` (Bootstrap Protocol Client) используется DHCP для получения динамического адреса.  
    <br>
-5. 
+5. L3 диаргамма  <br><br>
+   ![](img/Diagram.drawio.png)
