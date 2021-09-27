@@ -112,4 +112,124 @@
    ```
    ![](img/testssl.png)
    Утилита показала 4 уязвимости.
-3. 
+3. Установим ssh сервер на VM2, если он не стоит командой `apt install openssh-server`.
+   Попробуем подключиться на VM2
+   ```bash
+   vagrant@vagrant:~$ ssh vagrant@172.28.128.3
+   vagrant@172.28.128.3's password:
+   ```
+   Запрашивает пароль.
+   Сгенерируем на VM1 новый приватный ключ и скопируем его публичный ключ на VM2
+   ```bash
+   vagrant@vagrant:~$ ssh-keygen 
+   Generating public/private rsa key pair.
+   Enter file in which to save the key (/home/vagrant/.ssh/id_rsa): 
+   Enter passphrase (empty for no passphrase): 
+   Enter same passphrase again: 
+   Your identification has been saved in /home/vagrant/.ssh/id_rsa
+   Your public key has been saved in /home/vagrant/.ssh/id_rsa.pub
+   The key fingerprint is:
+   SHA256:fGp3xQBPBZ7cAB9ROCj1dGeh5Yz3og5JGEwckEp4G/s vagrant@vagrant
+   The key's randomart image is:
+   +---[RSA 3072]----+
+   |   .  .+oo+oB*+o+|
+   |  . + .oo .Xo**o |
+   |   o =  o.  O+.+ |
+   |    +  . o   o. .|
+   |     .  S o   + .|
+   |      E  + . o . |
+   |        o + o    |
+   |       . . +     |
+   |            .    |
+   +----[SHA256]-----+
+   
+   vagrant@vagrant:~$ ll .ssh/id*
+   -rw------- 1 vagrant vagrant 2602 Sep 27 17:09 .ssh/id_rsa
+   -rw-r--r-- 1 vagrant vagrant  569 Sep 27 17:09 .ssh/id_rsa.pub
+   
+   vagrant@vagrant:~$ ssh-copy-id vagrant@172.28.128.3
+   /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/vagrant/.ssh/id_rsa.pub"
+   /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+   /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+   vagrant@172.28.128.3's password: 
+   
+   Number of key(s) added: 1
+   
+   Now try logging into the machine, with:   "ssh 'vagrant@172.28.128.3'"
+   and check to make sure that only the key(s) you wanted were added.
+   ```
+   Пробуем подключится с ключом на VM2
+   ```bash
+   vagrant@vagrant:~$ ssh vagrant@172.28.128.3
+   Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-80-generic x86_64)
+
+   * Documentation:  https://help.ubuntu.com
+   * Management:     https://landscape.canonical.com
+   * Support:        https://ubuntu.com/advantage
+
+     System information as of Mon 27 Sep 2021 05:17:43 PM UTC
+
+     System load:  0.0               Processes:             111
+     Usage of /:   2.9% of 61.31GB   Users logged in:       1
+     Memory usage: 17%               IPv4 address for eth0: 10.0.2.15
+     Swap usage:   0%                IPv4 address for eth1: 172.28.128.3
+
+
+   This system is built by the Bento project by Chef Software
+   More information can be found at https://github.com/chef/bento
+   Last login: Mon Sep 27 17:03:01 2021 from 172.28.128.4
+   vagrant@vagrant:~$ tty
+   /dev/pts/1
+   vagrant@vagrant:~$ who
+   vagrant  pts/0        2021-09-27 16:56 (10.0.2.2)
+   vagrant  pts/1        2021-09-27 17:17 (172.28.128.4)
+   ```
+   Пустил без запроса пароля, т.е. подхватил и пустил с созданным ключом.
+4. Переименуем файлы ключей
+   ```bash
+   vagrant@vagrant:~$ mv .ssh/id_rsa .ssh/my_private_rsa
+   vagrant@vagrant:~$ mv .ssh/id_rsa.pub .ssh/my_public_rsa.pub
+   ```
+   Создадим конфиг клиента
+   ```bash
+   vagrant@vagrant:~$ cat .ssh/config 
+   Host srv2
+     HostName 172.28.128.3
+     IdentityFile ~/.ssh/my_private_rsa
+     User vagrant
+   ```
+   И попробуем подключится по имени сервера
+   ```bash
+   vagrant@vagrant:~$ ssh srv2
+   Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-80-generic x86_64)
+   
+    * Documentation:  https://help.ubuntu.com
+    * Management:     https://landscape.canonical.com
+    * Support:        https://ubuntu.com/advantage
+
+     System information as of Mon 27 Sep 2021 05:35:37 PM UTC
+   
+     System load:  0.08              Processes:             111
+     Usage of /:   2.9% of 61.31GB   Users logged in:       1
+     Memory usage: 17%               IPv4 address for eth0: 10.0.2.15
+     Swap usage:   0%                IPv4 address for eth1: 172.28.128.3
+   
+   
+   This system is built by the Bento project by Chef Software
+   More information can be found at https://github.com/chef/bento
+   Last login: Mon Sep 27 17:28:54 2021 from 172.28.128.4
+   ```
+5. Соберем дамп трафика утилитой `tcpdump` в формате `pcap`, 100 пакетов.
+   ```bash
+   vagrant@vagrant:~$ sudo tcpdump -c 100 -w 01.pcap -i eth0
+   tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+   100 packets captured
+   100 packets received by filter
+   0 packets dropped by kernel
+   
+   vagrant@vagrant:~$ ll -h 01.pcap 
+   -rw-r--r-- 1 tcpdump tcpdump 16K Sep 27 18:24 01.pcap
+   ```
+   Откроем этот файл в Wireshark
+   ![](img/wireshark.png)
+6. 
