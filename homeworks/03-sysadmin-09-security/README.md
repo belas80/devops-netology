@@ -112,7 +112,7 @@
    ```
    ![](img/testssl.png)
    Утилита показала 4 уязвимости.
-3. Установим ssh сервер на VM2, если он не стоит командой `apt install openssh-server`.
+3. Установим ssh сервер на VM2, если он не стоит командой `apt install openssh-server`.  
    Попробуем подключиться на VM2
    ```bash
    vagrant@vagrant:~$ ssh vagrant@172.28.128.3
