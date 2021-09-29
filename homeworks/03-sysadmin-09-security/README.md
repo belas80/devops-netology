@@ -232,4 +232,47 @@
    ```
    Откроем этот файл в Wireshark
    ![](img/wireshark.png)
-6. 
+6. Сканируем хост scanme.nmap.org
+   ```bash
+   vagrant@vagrant:~$ nmap scanme.nmap.org
+   Starting Nmap 7.80 ( https://nmap.org ) at 2021-09-29 16:00 UTC
+   Nmap scan report for scanme.nmap.org (45.33.32.156)
+   Host is up (0.21s latency).
+   Other addresses for scanme.nmap.org (not scanned): 2600:3c01::f03c:91ff:fe18:bb2f
+   Not shown: 996 closed ports
+   PORT      STATE SERVICE
+   22/tcp    open  ssh
+   80/tcp    open  http
+   9929/tcp  open  nping-echo
+   31337/tcp open  Elite
+   
+   Nmap done: 1 IP address (1 host up) scanned in 3.48 seconds
+   ```
+   Здесь открыты сервисы ssh порт 22, http порт 80, nping-echo порт 9929 и Elite порт 31337.
+7. Установим фаервол на сервер из задания 3 (`apt install ufw`) и откроем порты 22,80,443
+   ```bash
+   vagrant@vagrant:~$ sudo ufw status
+   Status: inactive
+   vagrant@vagrant:~$ sudo ufw allow "Apache Full"
+   Rules updated
+   Rules updated (v6)
+   vagrant@vagrant:~$ sudo ufw allow OpenSSH
+   Rules updated
+   Rules updated (v6)
+   vagrant@vagrant:~$ sudo ufw enable
+   Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+   Firewall is active and enabled on system startup
+   vagrant@vagrant:~$ sudo ufw status verbose 
+   Status: active
+   Logging: on (low)
+   Default: deny (incoming), allow (outgoing), disabled (routed)
+   New profiles: skip
+   
+   To                         Action      From
+   --                         ------      ----
+   80,443/tcp (Apache Full)   ALLOW IN    Anywhere                  
+   22/tcp (OpenSSH)           ALLOW IN    Anywhere                  
+   80,443/tcp (Apache Full (v6)) ALLOW IN    Anywhere (v6)             
+   22/tcp (OpenSSH (v6))      ALLOW IN    Anywhere (v6)    
+   ```
+   Порты отрыты. По умолчанию добавляются правила для IPv4 и для IPv6. Это поведение можно изменить установив `IPV6=no` в `/etc/default/ufw`.
