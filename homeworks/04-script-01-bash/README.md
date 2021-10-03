@@ -27,4 +27,51 @@
    fi
    done
    ```
-3. 
+3. Скрипт, который проверяет доступность трёх IP: 192.168.0.1, 173.194.222.113, 87.250.250.242 по 80 порту, пять раз для каждого узла и записывает результат в файл log.  
+   ```bash
+   #!/usr/bin/env bash
+   
+   addr_chk=(192.168.1.28 173.194.222.113 87.250.250.242)
+   rm myscript.log
+   
+   while ((1==1))
+   do
+     for i in ${addr_chk[@]}
+     do
+       n=5
+       while (($n>0))
+         do
+           curl http://$i
+           echo "Exit code for "$i " - " $? >> myscript.log
+           let n-=1
+         done
+       done
+   done
+   ```
+4. Допишем скрипт из предыдущего задания так, чтобы он выполнялся до тех пор, пока один из узлов не окажется недоступным, добавив проверку кода возврата через `if`.  
+   ```bash
+   #!/usr/bin/env bash
+   
+   addr_chk=(192.168.1.28 173.194.222.113 87.250.250.242)
+   rm mysсript.log
+   
+   while ((1==1))
+   do
+     for i in ${addr_chk[@]}
+     do
+       n=5
+       while (($n>0))
+       do
+           curl http://$i
+           if (($? != 0))
+           then
+               echo "Exit code for "$i " - "$? >> error.log
+               break 4
+           fi
+           echo "Exit code for "$i " - " $? >> mysсript.log
+           let n-=1
+       done
+     done
+   done
+   ```
+   
