@@ -88,5 +88,17 @@
    ```
    Сделаем его исполняемым `chmod +x .git/hooks/commit-msg` и проверим  
    ```bash
-   
+   bash-3.2$ git commit -m "[04-script-bash] сломал хук."
+   The commit message does not match format
+   bash-3.2$ git commit -m "04-script-01-bash сломал хук."
+   The commit message does not match format
+   bash-3.2$ git commit -m "[04-script-01-bash] сломал хук. здесь больше тридцати символов."
+   The commit message does not match format
+   bash-3.2$ echo "сломал хук. здесь больше тридцати символов." | wc -m
+          44
+   bash-3.2$ git commit -m "[04-script-01-bash] сломал хук."
+   [04-script-01-bash] сломал хук.
+   [main 240057d] [04-script-01-bash] сломал хук.
+     1 file changed, 24 insertions(+), 9 deletions(-)
    ```
+  Последняя команда отработала, т.к. сообщение соответствует регулярному выражению.
