@@ -18,8 +18,6 @@
     ```
     Чтобы получить значение 3, нужно преобразовать переменную `b` в число  
     ```python
-    >>> 
-    Чтобы получить значение 3, нужно преобразовать переменную b в число
     >>> c = a + int(b)
     >>> print(c)
     3
@@ -43,7 +41,7 @@
    ```
    Проверми работу скрипта  
    ![](img/script_m1.png)
-3. Доработаем скрипт так, чтобы он воспринимал путь к репозиторию как входной параметр. Заодно упростим его и сделаем проверку был ли указан путь.  
+3. Доработаем скрипт так, чтобы он воспринимал путь к репозиторию как входной параметр. Заодно упростим его пользуясь методами модуля `os` и сделаем проверку был ли указан путь.  
    ```python
    #!/usr/bin/env python3
    
@@ -65,4 +63,21 @@
    ```
    Результат
    ![](img/script_m2.png)
-4. 
+4. Скрипт, который опрашивает веб-сервисы, получает их IP, выводит информацию в стандартный вывод и проверяет текущий IP сервиса c его IP из предыдущей проверки.  
+   ```python
+   #!/usr/bin/env python3
+   import socket
+   import time
+   
+   test_services = {'drive.google.com':'','mail.google.com':'','google.com':''}
+   while 1==1:
+       for srv, old_ip in test_services.items():
+           current_ip = socket.gethostbyname(srv)
+           if old_ip == '':
+               test_services[srv] = current_ip
+           elif old_ip != current_ip:
+               print (' '.join(['[ERROR]',srv,'IP mismatch:',old_ip,current_ip]))
+               test_services[srv] = current_ip
+           print (' - '.join([srv, current_ip]))
+           time.sleep(1)
+   ```
