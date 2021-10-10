@@ -35,11 +35,11 @@
    #is_change = False  # это нам тоже не понадобится
    for result in result_os.split('\n'):
        if result.find('modified') != -1:
-           prepare_result = '/'.join([fullPath.replace('\n',''), result.replace('\tmodified:   ', '')])    # cклеиваем полный путь
+           prepare_result = '/'.join([fullPath.replace('\n',''), result.replace('\tmodified:   ', '')])    # склеиваем полный путь
            print(prepare_result)
            #break    # убираем чтобы скрипт показывал все найденные modified
    ```
-   Проверми работу скрипта  
+   Проверим работу скрипта  
    ![](img/script_m1.png)
 3. Доработаем скрипт так, чтобы он воспринимал путь к репозиторию как входной параметр. Заодно упростим его пользуясь методами модуля `os` и сделаем проверку был ли указан путь.  
    ```python
@@ -81,3 +81,5 @@
            print (' - '.join([srv, current_ip]))
            time.sleep(1)
    ```
+   Результат
+   ![](img/screenshot_test_ip.png)
