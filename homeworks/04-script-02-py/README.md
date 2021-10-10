@@ -70,7 +70,7 @@
    import time
    
    test_services = {'drive.google.com':'','mail.google.com':'','google.com':''}
-   while 1==1:
+   while True:
        for srv, old_ip in test_services.items():
            current_ip = socket.gethostbyname(srv)
            if old_ip == '':
