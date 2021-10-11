@@ -36,9 +36,8 @@
                test_services[srv] = current_ip
            print(' - '.join([srv, current_ip]))
            time.sleep(1)
-       with open('file.json', 'w') as jf:           # Открываем файл JSON на запись
+       with open('file.json', 'w') as jf, open('file.yaml', 'w') as yf:           # Открываем файл JSON и YAML на запись
            json.dump(test_services, jf, indent=4)   # Записываем в него dict в формате JSON
-       with open('file.yaml', 'w') as yf:                                           # Открываем на запись YAML
            yaml.dump(test_services, yf, explicit_start=True, explicit_end=True)     # Пишем тот же dict в YAML
    ```
    file.json
