@@ -17,7 +17,7 @@
         ]
     }
     ```
-2. Добавление возможности записи JSON и YAML файлов, описывающих наши сервисы, в скрипт из предыдущего задания. Для этого буду использовать библиотеки `json` и `yaml`.  
+2. Добавление возможности записи JSON и YAML файлов, описывающих наши сервисы, в скрипт из предыдущего задания. Для этого буду использовать библиотеки `json` и `yaml`.
    ```python
    #!/usr/bin/env python3
    import socket
@@ -27,18 +27,22 @@
    
    test_services = {'drive.google.com': '', 'mail.google.com': '', 'google.com': ''}
    while True:
+       is_changed = False
        for srv, old_ip in test_services.items():
            current_ip = socket.gethostbyname(srv)
            if old_ip == '':
                test_services[srv] = current_ip
+               is_changed = True
            elif old_ip != current_ip:
                print(' '.join(['[ERROR]', srv, 'IP mismatch:', old_ip, current_ip]))
                test_services[srv] = current_ip
+               is_changed = True
            print(' - '.join([srv, current_ip]))
            time.sleep(1)
-       with open('file.json', 'w') as jf, open('file.yaml', 'w') as yf:             # Открываем файл JSON и YAML на запись
-           json.dump(test_services, jf, indent=4)                                   # Записываем в file.json dict в формате JSON
-           yaml.dump(test_services, yf, explicit_start=True, explicit_end=True)     # Пишем тот же dict в YAML
+       if is_changed is True:                                                           # Если было изменение то пишем в файлы
+           with open('file.json', 'w') as jf, open('file.yaml', 'w') as yf:             # Открываем файл JSON и YAML на запись
+               json.dump(test_services, jf, indent=4)                                   # Записываем в file.json dict в формате JSON
+               yaml.dump(test_services, yf, explicit_start=True, explicit_end=True)     # Пишем тот же dict в YAML
    ```
    file.json
    ```json
