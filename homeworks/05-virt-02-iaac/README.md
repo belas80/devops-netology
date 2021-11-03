@@ -21,7 +21,7 @@
    ```bash
    # Вывод версии VirtualBox
    belyaev@MacBook-Air-Aleksandr ~ % VirtualBox --help
-   Oracle VM VirtualBox VM Selector v6.1.26
+   Oracle VM VirtualBox VM Selector v6.1.28
    (C) 2005-2021 Oracle Corporation
    All rights reserved.
    
@@ -44,3 +44,6 @@
 
 ## Задача 4
 
+   Воспроизводим практическую часть с лекции. Запускаем VM и убеждаемся что docker установлен.  
+   
+   ![](img/imgVagrantAnsible.png)
