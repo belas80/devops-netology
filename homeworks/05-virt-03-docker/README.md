@@ -81,4 +81,53 @@
 
 ## Задача 4
 
+   ```bash
+   # Собираем образ из Dockerfile с Alpine и Ansible
+   vagrant@server2:~/ansible$ docker build -t belas80/ansible:2.9.24 .
+   # ... много много строк вывода
+    ---> 573cdf366451
+   Step 3/5 : RUN mkdir /ansible &&     mkdir -p /etc/ansible &&     echo 'localhost' > /etc/ansible/hosts
+    ---> Running in 3c7c0b504e50
+   Removing intermediate container 3c7c0b504e50
+    ---> 1b49bac03f27
+   Step 4/5 : WORKDIR /ansible
+    ---> Running in 0a1705a88377
+   Removing intermediate container 0a1705a88377
+    ---> 240f630e256f
+   Step 5/5 : CMD [ "ansible-playbook", "--version" ]
+    ---> Running in 3df1206409c8
+   Removing intermediate container 3df1206409c8
+    ---> 7b749662b9de
+   Successfully built 7b749662b9de
+   Successfully tagged belas80/ansible:2.9.24
+   vagrant@server2:~/ansible$ 
    
+   # Проверим, запустив контейнер из этого образа, выводом будет версия ansible
+   vagrant@server2:~/ansible$ docker run --rm belas80/ansible:2.9.24
+   ansible-playbook 2.9.24
+     config file = None
+     configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+     ansible python module location = /usr/lib/python3.9/site-packages/ansible
+     executable location = /usr/bin/ansible-playbook
+     python version = 3.9.5 (default, May 12 2021, 20:44:22) [GCC 10.3.1 20210424]
+   vagrant@server2:~/ansible$ 
+   
+   # Залогинимся и запушим этот образ на hub.docker.com
+   vagrant@server2:~/ansible$ docker login -u belas80
+   Password: 
+   WARNING! Your password will be stored unencrypted in /home/vagrant/.docker/config.json.
+   Configure a credential helper to remove this warning. See
+   https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+   
+   Login Succeeded
+   
+   vagrant@server2:~/ansible$ docker push belas80/ansible:2.9.24
+   The push refers to repository [docker.io/belas80/ansible]
+   99b6d9f8f7b2: Pushed 
+   fac945173c56: Pushed 
+   e2eb06d8af82: Mounted from library/alpine 
+   2.9.24: digest: sha256:a1648107b4b50875098bee4f2efeb0399776f165214e15dd96de18e42f152310 size: 947
+   vagrant@server2:~/ansible$ 
+   ```
+
+   [Cсылка на Docker образ на Docker Hub](https://hub.docker.com/r/belas80/ansible/tags)
