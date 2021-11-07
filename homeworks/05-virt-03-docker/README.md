@@ -36,11 +36,15 @@
 ## Задача 2  
 
    В подобном сценарии думаю возможны разные варианты. Все зависит от нагрузки. Для высоконагруженного монолитного java 
-   веб-приложения, мне кажется больше подойдет физическая машина. Все остальное в принципе хорошо запустится в Docker 
-   контейнерах.  
-   
+   веб-приложения, мне кажется больше подойдет физическая машина либо аппаратная виртуализация для отказоустойчивости. 
+   Все остальное в принципе хорошо запустится в Docker контейнерах. К тому же практически все перечисленные сервисы 
+   (httpd, kafka, elasticsearch, logstash, kibana, Prometheus и т.д.) есть в виде официальных образов на DockerHub. 
+   Они поддерживают работу в кластере, репликацию данных и маштабируются горизонтально. Для мобильных приложений, чтобы 
+   поддерживать единую среду от версии к версии, тоже лучше Docker не придумаешь.  
+
 ## Задача 3  
 
+   Проброс папки `data` с хоста в контейнер.  
    ```bash
    # проверяем на хосте что папка пуста
    vagrant@server2:~$ ls data/
@@ -81,6 +85,7 @@
 
 ## Задача 4
 
+   Воспроизводим практическую часть из лекции.  
    ```bash
    # Собираем образ из Dockerfile с Alpine и Ansible
    vagrant@server2:~/ansible$ docker build -t belas80/ansible:2.9.24 .
@@ -102,7 +107,7 @@
    Successfully tagged belas80/ansible:2.9.24
    vagrant@server2:~/ansible$ 
    
-   # Проверим, запустив контейнер из этого образа, выводом будет версия ansible
+   # Проверим, запустив контейнер из этого образа. Выводом будет версия ansible.
    vagrant@server2:~/ansible$ docker run --rm belas80/ansible:2.9.24
    ansible-playbook 2.9.24
      config file = None
@@ -112,7 +117,7 @@
      python version = 3.9.5 (default, May 12 2021, 20:44:22) [GCC 10.3.1 20210424]
    vagrant@server2:~/ansible$ 
    
-   # Залогинимся и запушим этот образ на hub.docker.com
+   # Залогинимся и запушим этот образ на DockerHub
    vagrant@server2:~/ansible$ docker login -u belas80
    Password: 
    WARNING! Your password will be stored unencrypted in /home/vagrant/.docker/config.json.
