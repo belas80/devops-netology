@@ -130,4 +130,4 @@
    vagrant@server2:~/ansible$ 
    ```
 
-   [Cсылка на Docker образ на Docker Hub](https://hub.docker.com/r/belas80/ansible/tags)
+   Cсылка на Docker образ на Docker Hub [https://hub.docker.com/r/belas80/ansible/tags](https://hub.docker.com/r/belas80/ansible/tags)
