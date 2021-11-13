@@ -1,4 +1,5 @@
 .idea
 .DS_Store
 .vagrant
+.terraform
 key.json
