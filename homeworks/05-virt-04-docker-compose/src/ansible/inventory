@@ -1,0 +1,9 @@
+[nodes:children]
+manager
+mygroup
+
+[manager]
+node01.netology.cloud ansible_host=51.250.3.165
+
+[mygroup]
+node02.netology.cloud ansible_host=51.250.5.253
