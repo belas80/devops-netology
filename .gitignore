@@ -3,3 +3,4 @@
 .vagrant
 .terraform
 key.json
+.terraform.lock.*
