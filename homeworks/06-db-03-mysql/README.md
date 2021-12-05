@@ -148,12 +148,26 @@
    
 ## Задача 4  
 
-   Файл `my.cnf` в соответсвии с  
+   Файл `my.cnf` в соответствии с (движок InnoDB):  
    * Скорость IO важнее сохранности данных
    * Нужна компрессия таблиц для экономии места на диске
    * Размер буффера с незакомиченными транзакциями 1 Мб
    * Буффер кеширования 30% от ОЗУ
-   * Размер файла логов операций 100  
+   * Размер файла логов операций 100 Мб  
    ```
+   [mysqld]
+   pid-file        = /var/run/mysqld/mysqld.pid
+   socket          = /var/run/mysqld/mysqld.sock
+   datadir         = /var/lib/mysql
+   secure-file-priv= NULL
    
+   # InnoDB performance
+   innodb_flush_log_at_trx_commit = 2
+   innodb_file_per_table = ON
+   innodb_log_buffer_size = 1M
+   innodb_buffer_pool_size = 600M
+   innodb_log_file_size = 100M
+   
+   # Custom config should go here
+   !includedir /etc/mysql/conf.d/
    ```
