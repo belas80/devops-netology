@@ -12,5 +12,6 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - $PWD/backups:/backups
+
 volumes:
   pgdata:
