@@ -3,9 +3,10 @@ select * from only orders o;
 select * from orders_1 o ;
 select * from orders_2 o ;
 select table_name from information_schema."tables" t where table_schema = 'public';
-alter table orders add constraint cname unique (title);
+
 alter table orders_1 add unique (title);
 alter table orders_2 add unique (title);
+
 vacuum verbose
 
 analyze verbose orders;
@@ -78,5 +79,5 @@ INSERT INTO orders (title,price) VALUES
 	 ('Me and my bash-pet',499),
 	 ('Dbiezdmin',501);
 	 
-INSERT INTO orders (title,price) VALUES ('War and peace 3',200);
-INSERT INTO orders (title,price) VALUES  ('WAL never lies 3',900);
+INSERT INTO orders (title,price) VALUES ('War and peace 5',200);
+INSERT INTO orders (title,price) VALUES  ('WAL never lies 4',900);
