@@ -135,7 +135,7 @@
    ```bash
    path.repo: /elasticsearch/snapshots
    ```
-   И перезапустим докер  
+   И перезапустим контейнер  
    ```bash
    docker restart es01
    ```
@@ -200,7 +200,28 @@
    green  open   test-2                          6cHeqxCPT_ikb2FnUCJW9Q   1   0          0            0       226b           226b
    belyaev@MacBook-Air-Aleksandr src % 
    ```
-   Восстановим состояние кластера `elasticsearch` из `snapshot`, созданного ранее:  
+   Восстановим удаленный индекс `elasticsearch` из `snapshot`, созданного ранее:  
    ```bash
+   belyaev@MacBook-Air-Aleksandr src % curl -X POST "localhost:9200/_snapshot/netology_backup/my_elastic_2021.12.19/_restore?pretty" -H 'Content-Type: application/json' -d'
+   {
+     "indices": "test"
+   }
+   '
    
+   {
+     "accepted" : true
+   }   
+   ```
+   Итоговый список индексов:  
+   ```bash
+   belyaev@MacBook-Air-Aleksandr src % curl -X GET "http://localhost:9200/_cat/indices?v=true&s=index"
+   health status index                           uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+   green  open   .apm-agent-configuration        o0xye-JjQ6yEHHm1avA-Bw   1   0          0            0       226b           226b
+   green  open   .apm-custom-link                GYUMyEhvSOir970En-XStQ   1   0          0            0       226b           226b
+   green  open   .geoip_databases                wgBn05jERIi_mK3LVd4wUQ   1   0         42            0     41.2mb         41.2mb
+   green  open   .kibana_7.16.1_001              qRQfp4aTR-KVYFrAiZ88Mw   1   0         58           13      2.4mb          2.4mb
+   green  open   .kibana_task_manager_7.16.1_001 n9rtFCt6T2aKKlIjxHT_cQ   1   0         17         2351      775kb          775kb
+   green  open   .tasks                          k0fqhsRTTdyXRQAV_pzwxQ   1   0          4            0     21.4kb         21.4kb
+   green  open   test                            aaxN2Z5MRQiG_jK43-Bpng   1   0          0            0       226b           226b
+   green  open   test-2                          6cHeqxCPT_ikb2FnUCJW9Q   1   0          0            0       226b           226b
    ```
