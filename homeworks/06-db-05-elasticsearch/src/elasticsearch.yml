@@ -1,0 +1,5 @@
+node.name: netology_test
+path.data: /var/lib/elasticsearch/data
+path.logs: /var/lib/elasticsearch/logs
+network.host: 0.0.0.0
+discovery.type: single-node
