@@ -106,4 +106,4 @@
        ln -sf ~/terraform/$version/terraform /usr/local/bin/terraform
    fi   
    ```
-   Так же, для удобного переключения между версиями, можно воспользоваться готовой утилитой например [tfenv](https://github.com/tfutils/tfenv)
+   Так же, для удобного переключения между версиями, можно воспользоваться готовой утилитой, например [tfenv](https://github.com/tfutils/tfenv)
