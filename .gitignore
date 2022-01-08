@@ -4,3 +4,7 @@
 .terraform
 key.json
 .terraform.lock.*
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
