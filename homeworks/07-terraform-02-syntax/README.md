@@ -17,4 +17,5 @@
    Удаление созданных ресурсов через терраформ  
    ![](img/aws_destroy.png)  
    Свой образ ami можно создать с помощью Packer.  
-   [Исходники конфигурации терраформа.]()
+   [Исходники конфигурации терраформа AWS.](https://github.com/belas80/devops-netology/tree/main/homeworks/07-terraform-02-syntax/src/terraform/aws)
+   [Исходники конфигурации терраформа Yandex Cloud.](https://github.com/belas80/devops-netology/tree/main/homeworks/07-terraform-02-syntax/src/terraform/yc)
