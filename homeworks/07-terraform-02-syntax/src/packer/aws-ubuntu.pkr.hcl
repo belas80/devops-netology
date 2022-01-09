@@ -24,9 +24,20 @@ source "amazon-ebs" "ubuntu" {
 }
 
 build {
-  name    = "learn-packer"
+  name = "learn-packer"
   sources = [
     "source.amazon-ebs.ubuntu"
   ]
+
+  provisioner "shell" {
+    environment_vars = [
+      "FOO=hello world",
+    ]
+    inline = [
+      "echo This provisioner runs commands",
+      "sleep 30",
+      "echo \"FOO is $FOO\"",
+    ]
+  }
 }
 
