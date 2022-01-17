@@ -1,3 +1,10 @@
+locals {
+  instances = {
+    "Server1" = data.aws_ami.ubuntu.id
+    "Server2" = data.aws_ami.ubuntu.id
+  }
+}
+
 provider "aws" {
   profile = "default"
   region  = "eu-central-1"
@@ -21,11 +28,29 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "app_server" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-  key_name      = "deployer-key"
+  instance_type = var.web_instance_type_map[terraform.workspace]
+  count         = var.web_instance_count_map[terraform.workspace]
+
+  key_name = "deployer-key"
 
   tags = {
     Name = "HelloWorld"
+  }
+}
+
+resource "aws_instance" "app_server2" {
+  for_each      = local.instances
+  ami           = each.value
+  instance_type = var.web_instance_type_map[terraform.workspace]
+
+  key_name = "deployer-key"
+
+  tags = {
+    Name = "HelloWorld"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
