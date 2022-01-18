@@ -1,10 +1,3 @@
-locals {
-  instances = {
-    "Server1" = data.aws_ami.ubuntu.id
-    "Server2" = data.aws_ami.ubuntu.id
-  }
-}
-
 provider "aws" {
   profile = "default"
   region  = "eu-central-1"
