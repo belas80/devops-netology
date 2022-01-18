@@ -93,7 +93,7 @@
      * prod
        stage
      ```
-   * dfdf
+   * Вывод команды `terraform plan` для воркспейса `prod`  
      ```bash
      belyaev@MacBook-Air-Aleksandr src % terraform plan
      
@@ -523,7 +523,7 @@
            + key_name        = "deployer-key"
            + key_name_prefix = (known after apply)
            + key_pair_id     = (known after apply)
-           + public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAMprF0MsPCijfrdgdJO4j/2S92exCCzwpLPlAWwj4E032bopXIUV7eHE7TTZmHBPdjwq2hEbfAw/U2YhtnOQzSzyxUaiLRLRjx9tRT30ij2ty7AApaSXCKrbvwHwbSXvvJYTcBM10MY2IHey4HKG5yLUe/Uw4rTfXOlDXGaPYeLL1F89kiHDUgRJa8fOI0iMxxyzt5qsDmtPYw15UQB3MJ89AzkRKX8hCHXMQXtCEyOSvQlmyOLxB0IeXGs32+ckFqB53qR7tu5vU3CNkPURBAaRHLVHBeqfKMoXPnpj5IRHC0siNdbHT3+9XnedBo4nbfe+jKDRP/ttKQuA9+f2t belyaev@air-aleksandr.holding.local"
+           + public_key      = (sensitive)
            + tags_all        = (known after apply)
          }
      
@@ -549,6 +549,6 @@
      ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
      
      Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if
-     you run "terraform apply" now.     
+     you run "terraform apply" now.
      ```  
      

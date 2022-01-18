@@ -56,7 +56,7 @@ resource "aws_instance" "app_server2" {
 
 resource "aws_key_pair" "deployer" {
   key_name   = "deployer-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = sensitive(file("~/.ssh/id_rsa.pub"))
 }
 
 data "aws_caller_identity" "current" {}
