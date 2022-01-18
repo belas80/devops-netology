@@ -39,14 +39,14 @@ resource "aws_instance" "app_server" {
 }
 
 resource "aws_instance" "app_server2" {
-  for_each      = local.instances
-  ami           = each.value
+  for_each = var.instances
+  ami           = data.aws_ami.ubuntu.id
   instance_type = var.web_instance_type_map[terraform.workspace]
 
   key_name = "deployer-key"
 
   tags = {
-    Name = "HelloWorld"
+    Name = each.key
   }
 
   lifecycle {

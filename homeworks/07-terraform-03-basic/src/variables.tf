@@ -14,4 +14,11 @@ variable "web_instance_count_map" {
   }
 }
 
+variable "instances" {
+  type = set(string)
+  default = [
+    "server01",
+    "server02"
+  ]
+}
 

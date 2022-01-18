@@ -56,27 +56,28 @@
         value       = aws_instance.app_server[*].public_ip
       }
       ```  
-   5. Создадим рядом еще один `aws_instance`, но теперь определите их количество при помощи `for_each`, а не `count`.  
+   5. Создадим рядом еще один `aws_instance`, но теперь определим их количество при помощи `for_each`, а не `count`.  
       Переменная  
       ```terraform
-      locals {
-        instances = {
-          "Server1" = data.aws_ami.ubuntu.id
-          "Server2" = data.aws_ami.ubuntu.id
-        }
+      variable "instances" {
+        type = set(string)
+        default = [
+          "server01",
+          "server02"
+        ]
       }
       ```
       Ресурс, и сразу добавим ему жизненный цикл `create_before_destroy`  
       ```terraform
       resource "aws_instance" "app_server2" {
-        for_each      = local.instances
-        ami           = each.value
+        for_each = var.instances
+        ami           = data.aws_ami.ubuntu.id
         instance_type = var.web_instance_type_map[terraform.workspace]
       
         key_name = "deployer-key"
-          
+      
         tags = {
-          Name = "HelloWorld"
+          Name = each.key
         }
       
         lifecycle {
@@ -309,7 +310,7 @@
              }
          }
      
-       # aws_instance.app_server2["Server1"] will be created
+       # aws_instance.app_server2["server01"] will be created
        + resource "aws_instance" "app_server2" {
            + ami                                  = "ami-0d267e97f16681cd8"
            + arn                                  = (known after apply)
@@ -343,10 +344,10 @@
            + source_dest_check                    = true
            + subnet_id                            = (known after apply)
            + tags                                 = {
-               + "Name" = "HelloWorld"
+               + "Name" = "server01"
              }
            + tags_all                             = {
-               + "Name" = "HelloWorld"
+               + "Name" = "server01"
              }
            + tenancy                              = (known after apply)
            + user_data                            = (known after apply)
@@ -412,7 +413,7 @@
              }
          }
      
-       # aws_instance.app_server2["Server2"] will be created
+       # aws_instance.app_server2["server02"] will be created
        + resource "aws_instance" "app_server2" {
            + ami                                  = "ami-0d267e97f16681cd8"
            + arn                                  = (known after apply)
@@ -446,10 +447,10 @@
            + source_dest_check                    = true
            + subnet_id                            = (known after apply)
            + tags                                 = {
-               + "Name" = "HelloWorld"
+               + "Name" = "server02"
              }
            + tags_all                             = {
-               + "Name" = "HelloWorld"
+               + "Name" = "server02"
              }
            + tenancy                              = (known after apply)
            + user_data                            = (known after apply)
@@ -549,6 +550,6 @@
      ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
      
      Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if
-     you run "terraform apply" now.
+     you run "terraform apply" now.     
      ```  
      
