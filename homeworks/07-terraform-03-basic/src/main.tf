@@ -32,7 +32,7 @@ resource "aws_instance" "app_server" {
 }
 
 resource "aws_instance" "app_server2" {
-  for_each = var.instances
+  for_each      = var.instances
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.web_instance_type_map[terraform.workspace]
 
