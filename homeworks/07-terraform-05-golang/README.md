@@ -9,13 +9,13 @@
       import "fmt"
       
       func main() {
-          fmt.Print("Enter a number: ")
+          fmt.Print("Enter the number of meters: ")
           var input float32
           fmt.Scanf("%f", &input)
       
           output := input / 0.3048
       
-          fmt.Println(output)
+          fmt.Println(output, "feet")
       }
       ```
    2. Программа, которая найдет наименьший элемент в любом заданном списке.  
