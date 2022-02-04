@@ -2,6 +2,7 @@
 
 ## Задача 1.  
 
+   Исходный код AWS провайдера [https://github.com/hashicorp/terraform-provider-aws.git](https://github.com/hashicorp/terraform-provider-aws.git).  
    1. Все доступные `resource` и `data_source` перечислены в файле `provider.go` 
       [resource](https://github.com/hashicorp/terraform-provider-aws/blob/61c61be9ddad3ad5e6d8368d23ee12b0f674a566/internal/provider/provider.go#L789) 
       и [data_source](https://github.com/hashicorp/terraform-provider-aws/blob/61c61be9ddad3ad5e6d8368d23ee12b0f674a566/internal/provider/provider.go#L376).
