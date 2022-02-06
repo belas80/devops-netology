@@ -24,4 +24,3 @@ Add new line in main branch
 
    my text
 
-1. four
