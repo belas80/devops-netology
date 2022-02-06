@@ -22,5 +22,4 @@ Add new line in main branch
    
 1. three
 
-   my text
 
